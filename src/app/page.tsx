@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { PublicGoalsHighlight } from "@/components/PublicGoalsHighlight";
 import { Header } from "@/components/Header";
 import { PageTransition } from "@/components/motion/PageTransition";
+import Wave from "react-wavify";
 
 export default function Home() {
   const { user, loading: authLoading } = useAuth();
@@ -94,7 +95,7 @@ function PageContent({
   return (
     <>
       <PageTransition className="container mx-auto px-4 py-8">
-        <header className="text-center mb-4">
+        <header className="text-center mb-4 relative">
           <h1 className="text-3xl font-bold mb-2">おみログ</h1>
           <p className="text-gray-600 dark:text-gray-400">
             {currentYear}年のおみくじを記録して、
@@ -161,7 +162,19 @@ function PageContent({
           )}
         </main>
       </PageTransition>
-      <footer className="py-4 text-center text-sm text-gray-500">
+      <div className="fixed bottom-0 left-0 right-0 h-24 overflow-hidden pointer-events-none -z-50">
+        <Wave
+          fill="rgb(137 91 190 / 0.4)"
+          paused={false}
+          options={{
+            height: 20,
+            amplitude: 30,
+            speed: 0.15,
+            points: 4,
+          }}
+        />
+      </div>
+      <footer className="py-4 text-center text-sm text-gray-500 relative">
         <p>© 2025 おみログ</p>
       </footer>
     </>
