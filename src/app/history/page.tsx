@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/lib/firebase/auth";
-import { getOmikujiList } from "@/lib/firebase/db";
+import { getOmikujiList, OmikujiRecord } from "@/lib/firebase/db";
 import { OmikujiList } from "@/components/OmikujiList";
 import { Loading } from "@/components/Loading";
 import { Alert } from "@/components/Alert";
@@ -11,7 +11,9 @@ import { PageTransition } from "@/components/motion/PageTransition";
 
 export default function HistoryPage() {
   const { user, loading: authLoading } = useAuth();
-  const [omikujiList, setOmikujiList] = useState<any[]>([]);
+  const [omikujiList, setOmikujiList] = useState<
+    (OmikujiRecord & { id: string })[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 

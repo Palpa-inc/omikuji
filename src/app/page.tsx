@@ -2,17 +2,13 @@
 import { useAuth } from "@/lib/firebase/auth";
 import Link from "next/link";
 import {
-  getOmikujiList,
   getCurrentYearGoal,
-  getOmikujiStats,
   getPublicYearlyGoals,
+  YearlyGoal,
 } from "@/lib/firebase/db";
-import { OmikujiList } from "@/components/OmikujiList";
 import { YearlyGoalCard } from "@/components/YearlyGoalCard";
 import { Loading } from "@/components/Loading";
-import { Alert } from "@/components/Alert";
 import { useEffect, useState } from "react";
-import { OmikujiStats } from "@/components/OmikujiStats";
 import { Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -22,12 +18,9 @@ import { PageTransition } from "@/components/motion/PageTransition";
 
 export default function Home() {
   const { user, loading: authLoading } = useAuth();
-  const [omikujiList, setOmikujiList] = useState<any[]>([]);
-  const [yearlyGoal, setYearlyGoal] = useState<any>(null);
+  const [yearlyGoal, setYearlyGoal] = useState<YearlyGoal | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [stats, setStats] = useState<any>(null);
-  const [publicGoals, setPublicGoals] = useState<any[]>([]);
+  const [publicGoals, setPublicGoals] = useState<YearlyGoal[]>([]);
   const currentYear = new Date().getFullYear();
 
   useEffect(() => {
@@ -35,19 +28,14 @@ export default function Home() {
       if (!user) return;
 
       try {
-        const [list, goal, statsData, publicGoalsData] = await Promise.all([
-          getOmikujiList(user.uid),
+        const [goal, publicGoalsData] = await Promise.all([
           getCurrentYearGoal(user.uid),
-          getOmikujiStats(user.uid),
           getPublicYearlyGoals(new Date().getFullYear(), 3),
         ]);
-        setOmikujiList(list);
         setYearlyGoal(goal);
-        setStats(statsData);
         setPublicGoals(publicGoalsData);
       } catch (error) {
         console.error("Error fetching data:", error);
-        setError("データの取得に失敗しました");
       } finally {
         setLoading(false);
       }

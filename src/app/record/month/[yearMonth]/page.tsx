@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useAuth } from "@/lib/firebase/auth";
-import { getOmikujiByMonth } from "@/lib/firebase/db";
+import { getOmikujiByMonth, OmikujiRecord } from "@/lib/firebase/db";
 import { OmikujiList } from "@/components/OmikujiList";
 import { Alert } from "@/components/Alert";
 import { Loading } from "@/components/Loading";
@@ -17,11 +17,14 @@ export default function MonthlyOmikujiPage({
   params: { yearMonth: string };
 }) {
   const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
-  const [omikujiList, setOmikujiList] = useState<any[]>([]);
+  const [omikujiList, setOmikujiList] = useState<
+    (OmikujiRecord & { id: string })[]
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [filteredList, setFilteredList] = useState<any[]>([]);
+  const [filteredList, setFilteredList] = useState<
+    (OmikujiRecord & { id: string })[]
+  >([]);
   const [filters, setFilters] = useState<{
     result?: string;
     shrine?: string;
@@ -92,28 +95,28 @@ export default function MonthlyOmikujiPage({
           <div className="flex items-center gap-4">
             <h1 className="text-2xl font-bold">{monthName}のおみくじ</h1>
             <div className="flex items-center gap-2">
-              <a
+              <Link
                 href={`/record/month/${prevMonth}`}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                 title="前月"
               >
                 ←
-              </a>
-              <a
+              </Link>
+              <Link
                 href={`/record/month/${nextMonth}`}
                 className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded transition-colors"
                 title="翌月"
               >
                 →
-              </a>
+              </Link>
             </div>
           </div>
-          <a
+          <Link
             href="/"
             className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
           >
             ← トップへ
-          </a>
+          </Link>
         </div>
       </header>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useAuth } from "@/lib/firebase/auth";
 import { getYearlyGoals, type YearlyGoal } from "@/lib/firebase/db";
 import { Alert } from "@/components/Alert";
@@ -9,7 +9,6 @@ import { Loading } from "@/components/Loading";
 
 export default function GoalsListPage() {
   const { user, loading: authLoading } = useAuth();
-  const router = useRouter();
   const [goals, setGoals] = useState<YearlyGoal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -46,18 +45,18 @@ export default function GoalsListPage() {
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <h1 className="text-2xl font-bold">年別の抱負</h1>
           <div className="flex gap-4 items-center">
-            <a
+            <Link
               href="/goals"
               className="text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300"
             >
               今年の抱負を編集
-            </a>
-            <a
+            </Link>
+            <Link
               href="/"
               className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
             >
               ← 戻る
-            </a>
+            </Link>
           </div>
         </div>
       </header>

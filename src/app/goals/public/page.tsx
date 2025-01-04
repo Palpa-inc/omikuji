@@ -7,9 +7,10 @@ import { Alert } from "@/components/Alert";
 import { Header } from "@/components/Header";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { YearlyGoalCard } from "@/components/YearlyGoalCard";
+import { YearlyGoal } from "@/lib/firebase/db";
 
 export default function PublicGoalsPage() {
-  const [goals, setGoals] = useState<any[]>([]);
+  const [goals, setGoals] = useState<YearlyGoal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const currentYear = new Date().getFullYear();

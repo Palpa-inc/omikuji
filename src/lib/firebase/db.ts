@@ -2,7 +2,6 @@ import {
   collection,
   addDoc,
   serverTimestamp,
-  DocumentData,
   query,
   where,
   orderBy,
@@ -68,8 +67,8 @@ export type YearlyGoal = {
   year: number;
   content: string;
   isPublic: boolean;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
 };
 
 export async function saveYearlyGoal(
@@ -177,7 +176,7 @@ export async function getYearlyGoals(userId: string) {
   }
 }
 
-export type OmikujiStats = {
+export type Stats = {
   total: number;
   byResult: Record<string, number>;
   byMonth: Record<string, number>;
@@ -187,7 +186,7 @@ export type OmikujiStats = {
   };
 };
 
-export async function getOmikujiStats(userId: string): Promise<OmikujiStats> {
+export async function getOmikujiStats(userId: string): Promise<Stats> {
   try {
     const q = query(
       collection(db, "omikuji"),
@@ -201,7 +200,7 @@ export async function getOmikujiStats(userId: string): Promise<OmikujiStats> {
     );
 
     // 基本の集計
-    const stats: OmikujiStats = {
+    const stats: Stats = {
       total: omikujiList.length,
       byResult: {},
       byMonth: {},

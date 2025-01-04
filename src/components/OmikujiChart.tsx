@@ -3,6 +3,7 @@
 import {
   Chart as ChartJS,
   CategoryScale,
+  TooltipItem,
   LinearScale,
   BarElement,
   Title,
@@ -51,8 +52,8 @@ export function OmikujiChart({ data, total }: Props) {
       },
       tooltip: {
         callbacks: {
-          label: (context: any) => {
-            const value = context.raw;
+          label: (context: TooltipItem<"bar">) => {
+            const value = context.raw as number;
             const percentage = ((value / total) * 100).toFixed(1);
             return `${value}件 (${percentage}%)`;
           },

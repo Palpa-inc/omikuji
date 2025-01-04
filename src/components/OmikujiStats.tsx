@@ -1,16 +1,11 @@
-import type { OmikujiStats } from "@/lib/firebase/db";
+import type { Stats } from "@/lib/firebase/db";
 import { OmikujiChart } from "./OmikujiChart";
 
 type Props = {
-  stats: OmikujiStats;
+  stats: Stats;
 };
 
 export function OmikujiStats({ stats }: Props) {
-  const resultOrder = ["大吉", "中吉", "小吉", "吉", "末吉", "凶", "大凶"];
-  const sortedResults = Object.entries(stats.byResult).sort(
-    (a, b) => resultOrder.indexOf(a[0]) - resultOrder.indexOf(b[0])
-  );
-
   const recentMonths = Object.entries(stats.byMonth)
     .sort((a, b) => b[0].localeCompare(a[0]))
     .slice(0, 6);

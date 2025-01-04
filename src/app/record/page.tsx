@@ -74,9 +74,8 @@ export default function RecordPage() {
   });
 
   const {
-    register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = form;
 
   const onSubmit = async (data: FormValues) => {
@@ -412,7 +411,7 @@ export default function RecordPage() {
 
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {Object.entries(form.getValues("content")).map(
-                          ([key, value]) => (
+                          ([key]) => (
                             <FormField
                               key={key}
                               control={form.control}
@@ -498,7 +497,7 @@ export default function RecordPage() {
                   {isSubmitting ? "保存中..." : "記録する"}
                 </Button>
                 <Button variant="outline" className="flex-1" asChild>
-                  <a href="/">キャンセル</a>
+                  <Link href="/">キャンセル</Link>
                 </Button>
               </div>
             </form>

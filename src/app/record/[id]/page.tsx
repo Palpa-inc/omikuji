@@ -1,6 +1,6 @@
 "use client";
-
 import { use } from "react";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/firebase/auth";
@@ -8,10 +8,10 @@ import {
   getOmikujiById,
   deleteOmikuji,
   updateOmikuji,
+  OmikujiRecord,
 } from "@/lib/firebase/db";
 import { Alert } from "@/components/Alert";
 import { Loading } from "@/components/Loading";
-import { OMIKUJI_ITEMS } from "@/lib/constants";
 import {
   Collapsible,
   CollapsibleContent,
@@ -35,7 +35,7 @@ export default function OmikujiDetailPage({
   const { id } = use(params);
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const [omikuji, setOmikuji] = useState<any>(null);
+  const [omikuji, setOmikuji] = useState<OmikujiRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -114,7 +114,7 @@ export default function OmikujiDetailPage({
         memo: editedMemo,
         shrine: editedShrine,
         date: editedDate,
-        content: omikuji.content,
+        content: omikuji?.content,
       });
 
       setIsEditing(false);
@@ -139,12 +139,12 @@ export default function OmikujiDetailPage({
       <header className="mb-8">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <h1 className="text-2xl font-bold">おみくじの詳細</h1>
-          <a
+          <Link
             href="/"
             className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
           >
             ← 戻る
-          </a>
+          </Link>
         </div>
       </header>
 

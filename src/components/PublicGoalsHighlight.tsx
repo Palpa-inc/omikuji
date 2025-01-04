@@ -1,5 +1,4 @@
 import { YearlyGoal } from "@/lib/firebase/db";
-import { Check } from "lucide-react";
 import Link from "next/link";
 import { YearlyGoalCard } from "@/components/YearlyGoalCard";
 

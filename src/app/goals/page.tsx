@@ -10,6 +10,7 @@ import {
 } from "@/lib/firebase/db";
 import { Alert } from "@/components/Alert";
 import { Loading } from "@/components/Loading";
+import Link from "next/link";
 
 type GoalItem = {
   id: string;
@@ -19,7 +20,6 @@ type GoalItem = {
 export default function GoalsPage() {
   const { user, loading: authLoading } = useAuth();
   const router = useRouter();
-  const [content, setContent] = useState("");
   const [currentGoal, setCurrentGoal] = useState<YearlyGoal | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -191,12 +191,12 @@ export default function GoalsPage() {
                 ? "更新する"
                 : "記録する"}
             </button>
-            <a
+            <Link
               href="/"
               className="flex-1 border-2 border-gray-200 dark:border-gray-700 hover:border-indigo-600 dark:hover:border-indigo-500 rounded-lg py-2 px-4 text-center transition-colors"
             >
               キャンセル
-            </a>
+            </Link>
           </div>
         </form>
       </main>

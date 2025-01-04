@@ -8,10 +8,10 @@ import { Alert } from "@/components/Alert";
 import { Header } from "@/components/Header";
 import { useState, useEffect } from "react";
 import { PageTransition } from "@/components/motion/PageTransition";
-
+import type { Stats } from "@/lib/firebase/db";
 export default function StatsPage() {
   const { user, loading: authLoading } = useAuth();
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
