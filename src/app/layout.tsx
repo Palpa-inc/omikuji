@@ -15,7 +15,25 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "おみログ",
-  description: "おみくじの結果を記録して、運勢の変化を振り返ろう",
+  description: "おみくじの運勢を記録して後から振り返ろう",
+  openGraph: {
+    title: "おみログ",
+    description: "おみくじの運勢を記録して後から振り返ろう",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "おみログ",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "おみログ",
+    description: "おみくじの運勢を記録して後から振り返ろう",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
