@@ -9,7 +9,7 @@ import {
 import { YearlyGoalCard } from "@/components/YearlyGoalCard";
 import { Loading } from "@/components/Loading";
 import { useEffect, useState } from "react";
-import { Camera } from "lucide-react";
+import { Camera, ListTodo } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PublicGoalsHighlight } from "@/components/PublicGoalsHighlight";
@@ -92,6 +92,30 @@ export default function Home() {
                 </div>
               </div>
             </Card>
+            {!yearlyGoal && (
+              <Card className="p-4">
+                <div className="flex flex-col gap-4">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-lg h-auto py-4"
+                  >
+                    <Link href="/goals" className="flex items-center gap-2">
+                      <ListTodo className="h-5 w-5" />
+                      <span>今年の抱負を書く</span>
+                    </Link>
+                  </Button>
+                  <div className="flex items-start gap-3 px-1">
+                    <div className="p-1.5 rounded-full bg-emerald-100 text-emerald-600">
+                      <ListTodo className="h-4 w-4" />
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      おみくじの運勢と一緒に今年の目標を立ててみよう
+                    </p>
+                  </div>
+                </div>
+              </Card>
+            )}
           </div>
 
           {publicGoals.length > 0 && (
