@@ -396,7 +396,6 @@ export default function RecordPage() {
                             <input
                               type="file"
                               accept="image/*"
-                              capture="environment"
                               className="hidden"
                               id="camera-input"
                               onChange={async (e) => {
