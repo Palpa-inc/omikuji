@@ -15,7 +15,6 @@ import { Card } from "@/components/ui/card";
 import { PublicGoalsHighlight } from "@/components/PublicGoalsHighlight";
 import { Header } from "@/components/Header";
 import { PageTransition } from "@/components/motion/PageTransition";
-import Wave from "react-wavify";
 
 export default function Home() {
   const { user, loading: authLoading } = useAuth();
