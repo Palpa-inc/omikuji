@@ -162,18 +162,7 @@ function PageContent({
           )}
         </main>
       </PageTransition>
-      <div className="fixed bottom-0 left-0 right-0 h-24 overflow-hidden pointer-events-none -z-50">
-        <Wave
-          fill="rgb(137 91 190 / 0.4)"
-          paused={false}
-          options={{
-            height: 20,
-            amplitude: 30,
-            speed: 0.15,
-            points: 4,
-          }}
-        />
-      </div>
+
       <footer className="py-4 text-center text-sm text-gray-500 relative">
         <p>© 2025 おみログ</p>
       </footer>
