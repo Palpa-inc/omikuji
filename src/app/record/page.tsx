@@ -58,7 +58,7 @@ export default function RecordPage() {
   const [openSections, setOpenSections] = useState({
     basic: true,
     content: true,
-    memo: true,
+    memo: false,
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -246,9 +246,9 @@ export default function RecordPage() {
               >
                 <Card>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle>基本情報</CardTitle>
-                      <CollapsibleTrigger asChild>
+                    <CollapsibleTrigger asChild>
+                      <div className="flex items-center justify-between w-full cursor-pointer">
+                        <CardTitle>基本情報</CardTitle>
                         <Button variant="ghost" size="sm" className="w-9 p-0">
                           {openSections.basic ? (
                             <ChevronUp className="h-4 w-4" />
@@ -256,8 +256,8 @@ export default function RecordPage() {
                             <ChevronDown className="h-4 w-4" />
                           )}
                         </Button>
-                      </CollapsibleTrigger>
-                    </div>
+                      </div>
+                    </CollapsibleTrigger>
                   </CardHeader>
                   <CollapsibleContent
                     className={cn(
@@ -344,9 +344,9 @@ export default function RecordPage() {
               >
                 <Card>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle>おみくじの内容</CardTitle>
-                      <CollapsibleTrigger asChild>
+                    <CollapsibleTrigger asChild>
+                      <div className="flex items-center justify-between w-full cursor-pointer">
+                        <CardTitle>おみくじの内容</CardTitle>
                         <Button variant="ghost" size="sm" className="w-9 p-0">
                           {openSections.content ? (
                             <ChevronUp className="h-4 w-4" />
@@ -354,8 +354,8 @@ export default function RecordPage() {
                             <ChevronDown className="h-4 w-4" />
                           )}
                         </Button>
-                      </CollapsibleTrigger>
-                    </div>
+                      </div>
+                    </CollapsibleTrigger>
                   </CardHeader>
                   <CollapsibleContent
                     className={cn(
@@ -445,9 +445,9 @@ export default function RecordPage() {
               >
                 <Card>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
-                      <CardTitle>メモ</CardTitle>
-                      <CollapsibleTrigger asChild>
+                    <CollapsibleTrigger asChild>
+                      <div className="flex items-center justify-between w-full cursor-pointer">
+                        <CardTitle>メモ</CardTitle>
                         <Button variant="ghost" size="sm" className="w-9 p-0">
                           {openSections.memo ? (
                             <ChevronUp className="h-4 w-4" />
@@ -455,8 +455,8 @@ export default function RecordPage() {
                             <ChevronDown className="h-4 w-4" />
                           )}
                         </Button>
-                      </CollapsibleTrigger>
-                    </div>
+                      </div>
+                    </CollapsibleTrigger>
                   </CardHeader>
                   <CollapsibleContent
                     className={cn(
