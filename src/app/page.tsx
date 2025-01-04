@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { PublicGoalsHighlight } from "@/components/PublicGoalsHighlight";
 import { Header } from "@/components/Header";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { Squircle } from "@squircle-js/react";
 
 export default function Home() {
   const { user, loading: authLoading } = useAuth();
@@ -109,16 +110,20 @@ function PageContent({
           <div className="flex flex-col gap-4 w-full max-w-md mx-auto">
             <Card className="p-4">
               <div className="flex flex-col gap-4">
-                <Button
+                <Squircle
                   asChild
-                  size="lg"
-                  className="bg-violet-600 hover:bg-violet-700 text-lg h-auto py-4"
+                  cornerRadius={16}
+                  cornerSmoothing={1}
+                  className="bg-violet-600 hover:bg-violet-700 text-lg text-white h-auto py-4"
                 >
-                  <Link href="/record" className="flex items-center gap-2">
+                  <Link
+                    href="/record"
+                    className="flex items-center justify-center gap-2 w-full"
+                  >
                     <Camera className="h-5 w-5" />
                     <span>おみくじをアップロード</span>
                   </Link>
-                </Button>
+                </Squircle>
                 <div className="flex items-start gap-3 px-1">
                   <div className="p-1.5 rounded-full bg-violet-100 text-violet-600">
                     <Camera className="h-4 w-4" />
@@ -133,16 +138,20 @@ function PageContent({
             {!yearlyGoal && (
               <Card className="p-4">
                 <div className="flex flex-col gap-4">
-                  <Button
+                  <Squircle
                     asChild
-                    size="lg"
-                    className="bg-emerald-600 hover:bg-emerald-700 text-lg h-auto py-4"
+                    cornerRadius={16}
+                    cornerSmoothing={1}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white text-lg h-auto py-4"
                   >
-                    <Link href="/goals" className="flex items-center gap-2">
+                    <Link
+                      href="/goals"
+                      className="flex items-center justify-center gap-2 w-full"
+                    >
                       <ListTodo className="h-5 w-5" />
                       <span>今年の抱負を書く</span>
                     </Link>
-                  </Button>
+                  </Squircle>
                   <div className="flex items-start gap-3 px-1">
                     <div className="p-1.5 rounded-full bg-emerald-100 text-emerald-600">
                       <ListTodo className="h-4 w-4" />
