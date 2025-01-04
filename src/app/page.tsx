@@ -1,0 +1,119 @@
+"use client";
+import { useAuth } from "@/lib/firebase/auth";
+import Link from "next/link";
+import {
+  getOmikujiList,
+  getCurrentYearGoal,
+  getOmikujiStats,
+  getPublicYearlyGoals,
+} from "@/lib/firebase/db";
+import { OmikujiList } from "@/components/OmikujiList";
+import { YearlyGoalCard } from "@/components/YearlyGoalCard";
+import { Loading } from "@/components/Loading";
+import { Alert } from "@/components/Alert";
+import { useEffect, useState } from "react";
+import { OmikujiStats } from "@/components/OmikujiStats";
+import { Camera } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { PublicGoalsHighlight } from "@/components/PublicGoalsHighlight";
+import { Header } from "@/components/Header";
+import { PageTransition } from "@/components/motion/PageTransition";
+
+export default function Home() {
+  const { user, loading: authLoading } = useAuth();
+  const [omikujiList, setOmikujiList] = useState<any[]>([]);
+  const [yearlyGoal, setYearlyGoal] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [stats, setStats] = useState<any>(null);
+  const [publicGoals, setPublicGoals] = useState<any[]>([]);
+  const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!user) return;
+
+      try {
+        const [list, goal, statsData, publicGoalsData] = await Promise.all([
+          getOmikujiList(user.uid),
+          getCurrentYearGoal(user.uid),
+          getOmikujiStats(user.uid),
+          getPublicYearlyGoals(new Date().getFullYear(), 3),
+        ]);
+        setOmikujiList(list);
+        setYearlyGoal(goal);
+        setStats(statsData);
+        setPublicGoals(publicGoalsData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError("データの取得に失敗しました");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (user) {
+      fetchData();
+    } else if (!authLoading) {
+      setLoading(false);
+    }
+  }, [user, authLoading]);
+
+  if (authLoading || loading) {
+    return <Loading />;
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <PageTransition className="container mx-auto px-4 py-8">
+        <header className="text-center mb-4">
+          <h1 className="text-3xl font-bold mb-2">おみログ</h1>
+          <p className="text-gray-600 dark:text-gray-400">
+            {currentYear}年のおみくじを記録して、
+            <br />
+            運勢の変化を振り返ろう
+          </p>
+        </header>
+
+        <main className="max-w-md mx-auto space-y-6">
+          {yearlyGoal && <YearlyGoalCard goal={yearlyGoal} />}
+
+          <div className="flex flex-col gap-4 w-full max-w-md mx-auto">
+            <Card className="p-4">
+              <div className="flex flex-col gap-4">
+                <Button
+                  asChild
+                  size="lg"
+                  className="bg-violet-600 hover:bg-violet-700 text-lg h-auto py-4"
+                >
+                  <Link href="/record" className="flex items-center gap-2">
+                    <Camera className="h-5 w-5" />
+                    <span>おみくじをアップロード</span>
+                  </Link>
+                </Button>
+                <div className="flex items-start gap-3 px-1">
+                  <div className="p-1.5 rounded-full bg-violet-100 text-violet-600">
+                    <Camera className="h-4 w-4" />
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    写真を撮るだけで簡単記録！
+                    おみくじの内容を自動で読み取って入力を補完します
+                  </p>
+                </div>
+              </div>
+            </Card>
+          </div>
+
+          {publicGoals.length > 0 && (
+            <PublicGoalsHighlight goals={publicGoals} />
+          )}
+        </main>
+      </PageTransition>
+      <footer className="py-4 text-center text-sm text-gray-500">
+        <p>© 2025 おみログ</p>
+      </footer>
+    </div>
+  );
+}
