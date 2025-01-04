@@ -10,7 +10,6 @@ import { YearlyGoalCard } from "@/components/YearlyGoalCard";
 import { Loading } from "@/components/Loading";
 import { useEffect, useState } from "react";
 import { Camera, ListTodo } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PublicGoalsHighlight } from "@/components/PublicGoalsHighlight";
 import { Header } from "@/components/Header";
