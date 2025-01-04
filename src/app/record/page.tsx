@@ -165,11 +165,21 @@ export default function RecordPage() {
 
       if (!response.ok) throw new Error("API request failed");
 
-      const result = await response.json();
-      const parsedResult = JSON.parse(result);
+      const rawResult = await response.json();
+      console.log("Raw API Response:", rawResult);
+
+      // 文字列として返ってきた場合はパースする
+      const result =
+        typeof rawResult === "string" ? JSON.parse(rawResult) : rawResult;
+      console.log("Parsed result:", result);
 
       form.setValue("content", {});
-      Object.entries(parsedResult).forEach(([key, value]) => {
+      console.log("Content before processing:", form.getValues("content"));
+
+      Object.entries(result).forEach(([key, value]) => {
+        console.log(
+          `Processing key: ${key}, value: ${value}, type: ${typeof value}`
+        );
         if (key === "result") {
           if (
             ["大吉", "中吉", "小吉", "吉", "末吉", "凶", "大凶"].includes(
@@ -180,13 +190,17 @@ export default function RecordPage() {
               "result",
               value as "大吉" | "中吉" | "小吉" | "吉" | "末吉" | "凶" | "大凶"
             );
+            console.log("Set result value:", value);
           }
         } else {
           form.setValue(`content.${key}`, value as string);
+          console.log(`Set content value for ${key}:`, value);
         }
       });
+
+      console.log("Final form values:", form.getValues());
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error details:", error);
       setError("画像の処理中にエラーが発生しました");
     } finally {
       setIsProcessing(false);
