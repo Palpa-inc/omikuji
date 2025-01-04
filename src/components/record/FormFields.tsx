@@ -9,10 +9,19 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { UseFormReturn } from "react-hook-form";
+
+type FormValues = {
+  date: string;
+  result: "大吉" | "中吉" | "小吉" | "吉" | "末吉" | "凶" | "大凶";
+  shrine?: string;
+  content: Record<string, string>;
+  memo?: string;
+};
 
 type Props = {
   fields: { key: string; value: string }[];
-  form: any;
+  form: UseFormReturn<FormValues>;
 };
 
 export function FormFields({ fields, form }: Props) {
