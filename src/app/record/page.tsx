@@ -39,6 +39,7 @@ import { Camera } from "lucide-react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { PageTransition } from "@/components/motion/PageTransition";
+import { FormFields } from "@/components/record/FormFields";
 
 const omikujiSchema = z.object({
   date: z.string(),
@@ -409,32 +410,15 @@ export default function RecordPage() {
                         )}
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {Object.entries(form.getValues("content")).map(
-                          ([key]) => (
-                            <FormField
-                              key={key}
-                              control={form.control}
-                              name={`content.${key}`}
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel>{key}</FormLabel>
-                                  <FormControl>
-                                    <Input {...field} />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                          )
+                      <FormFields
+                        fields={Object.entries(form.getValues("content")).map(
+                          ([key]) => ({
+                            key,
+                            value: form.getValues(`content.${key}`),
+                          })
                         )}
-                        {Object.keys(form.getValues("content")).length ===
-                          0 && (
-                          <p className="text-sm text-muted-foreground col-span-2 text-center p-4">
-                            写真をアップロードすると、おみくじの内容が自動で読み取られます
-                          </p>
-                        )}
-                      </div>
+                        form={form}
+                      />
                     </CardContent>
                   </CollapsibleContent>
                 </Card>
