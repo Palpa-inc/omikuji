@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: "おみくじの運勢を記録して後から振り返ろう",
     images: [
       {
-        url: "/og-image.png",
+        url: "https://omilog.net/og-image.png",
         width: 1200,
         height: 630,
         alt: "おみログ",
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "おみログ",
     description: "おみくじの運勢を記録して後から振り返ろう",
-    images: ["/og-image.png"],
+    images: ["https://omilog.net/og-image.png"],
   },
 };
 
