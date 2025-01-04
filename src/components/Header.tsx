@@ -57,7 +57,7 @@ export function Header() {
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <motion.div
-        className="container flex h-14 items-center justify-between px-4"
+        className="flex flex-row h-14 w-full items-center justify-between px-4"
         animate={{ y: isScrolled ? -2 : 0, scale: isScrolled ? 0.98 : 1 }}
         transition={{ duration: 0.2 }}
       >
@@ -70,7 +70,7 @@ export function Header() {
         </Link>
 
         {user && (
-          <div className="flex items-center">
+          <div className="flex items-center justify-end w-full">
             <Button
               variant="ghost"
               size="icon"
