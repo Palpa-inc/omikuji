@@ -5,6 +5,8 @@ import { YearlyGoalCard } from "@/components/YearlyGoalCard";
 export function PublicGoalsHighlight({ goals }: { goals: YearlyGoal[] }) {
   if (goals.length === 0) return null;
 
+  const shuffledGoals = [...goals].sort(() => Math.random() - 0.5);
+
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
@@ -17,7 +19,7 @@ export function PublicGoalsHighlight({ goals }: { goals: YearlyGoal[] }) {
         </Link>
       </div>
       <div className="space-y-4">
-        {goals.map((goal) => (
+        {shuffledGoals.map((goal) => (
           <YearlyGoalCard key={goal.id} goal={goal} isPublic />
         ))}
       </div>
