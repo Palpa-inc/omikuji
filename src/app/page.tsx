@@ -25,7 +25,10 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      if (!user) return;
+      if (!user) {
+        setLoading(false);
+        return;
+      }
 
       try {
         const [goal, publicGoalsData] = await Promise.all([
@@ -41,20 +44,55 @@ export default function Home() {
       }
     }
 
-    if (user) {
-      fetchData();
-    } else if (!authLoading) {
-      setLoading(false);
-    }
-  }, [user, authLoading]);
+    fetchData();
+  }, [user]);
 
-  if (authLoading || loading) {
-    return <Loading />;
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex flex-col relative">
+        <Header />
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50">
+          <Loading />
+        </div>
+        <div className="opacity-50">
+          <PageContent
+            yearlyGoal={null}
+            publicGoals={[]}
+            currentYear={currentYear}
+          />
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col relative">
       <Header />
+      {loading && (
+        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center z-50">
+          <Loading />
+        </div>
+      )}
+      <PageContent
+        yearlyGoal={yearlyGoal}
+        publicGoals={publicGoals}
+        currentYear={currentYear}
+      />
+    </div>
+  );
+}
+
+function PageContent({
+  yearlyGoal,
+  publicGoals,
+  currentYear,
+}: {
+  yearlyGoal: YearlyGoal | null;
+  publicGoals: YearlyGoal[];
+  currentYear: number;
+}) {
+  return (
+    <>
       <PageTransition className="container mx-auto px-4 py-8">
         <header className="text-center mb-4">
           <h1 className="text-3xl font-bold mb-2">おみログ</h1>
@@ -126,6 +164,6 @@ export default function Home() {
       <footer className="py-4 text-center text-sm text-gray-500">
         <p>© 2025 おみログ</p>
       </footer>
-    </div>
+    </>
   );
 }
