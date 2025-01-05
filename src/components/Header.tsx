@@ -33,7 +33,6 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [isSelectingAccount, setIsSelectingAccount] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,6 +65,7 @@ export function Header() {
       await linkGoogleAccount();
       window.location.reload();
     } catch (error) {
+      console.error("Google link error:", error);
       setError("Google連携に失敗しました");
     }
   };
@@ -75,6 +75,7 @@ export function Header() {
       await signInWithGoogle();
       window.location.reload();
     } catch (error) {
+      console.error("Google sign in error:", error);
       setError("Googleログインに失敗しました");
     }
   };
@@ -84,6 +85,7 @@ export function Header() {
       await logout();
       window.location.reload();
     } catch (error) {
+      console.error("Logout error:", error);
       setError("ログアウトに失敗しました");
     }
   };

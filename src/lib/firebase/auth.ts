@@ -6,14 +6,10 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   linkWithPopup,
-  AuthErrorCodes,
-  signInWithCredential,
-  fetchSignInMethodsForEmail,
   signOut,
   updateProfile,
 } from "firebase/auth";
 import { auth } from "./config";
-import { FirebaseError } from "firebase/app";
 import { mergeAnonymousData } from "./db";
 
 const googleProvider = new GoogleAuthProvider();
