@@ -14,6 +14,7 @@ import {
   Timestamp,
   setDoc,
   increment,
+  writeBatch,
 } from "firebase/firestore";
 import { db } from "./config";
 
@@ -344,4 +345,39 @@ export async function checkAndUpdateUsageLimit(
     console.error("Error checking usage limit:", error);
     throw error;
   }
+}
+
+export async function mergeAnonymousData(anonymousUid: string, newUid: string) {
+  const batch = writeBatch(db);
+
+  // おみくじデータの移行
+  const omikujiRef = collection(db, "omikuji");
+  const omikujiSnapshot = await getDocs(
+    query(omikujiRef, where("userId", "==", anonymousUid))
+  );
+  omikujiSnapshot.forEach((doc) => {
+    const newDocRef = doc.ref;
+    batch.update(newDocRef, { userId: newUid });
+  });
+
+  // 目標データの移行
+  const goalsRef = collection(db, "goals");
+  const goalsSnapshot = await getDocs(
+    query(goalsRef, where("userId", "==", anonymousUid))
+  );
+  goalsSnapshot.forEach((doc) => {
+    const newDocRef = doc.ref;
+    batch.update(newDocRef, { userId: newUid });
+  });
+
+  // 使用制限データの移行
+  const usageLimitRef = doc(db, "usage_limits", anonymousUid);
+  const usageLimitDoc = await getDoc(usageLimitRef);
+  if (usageLimitDoc.exists()) {
+    const newUsageLimitRef = doc(db, "usage_limits", newUid);
+    batch.set(newUsageLimitRef, { ...usageLimitDoc.data(), userId: newUid });
+    batch.delete(usageLimitRef);
+  }
+
+  await batch.commit();
 }

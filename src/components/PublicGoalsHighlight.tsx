@@ -1,8 +1,27 @@
-import { YearlyGoal } from "@/lib/firebase/db";
+"use client";
+
+import { useState, useEffect } from "react";
+import { YearlyGoal, getPublicYearlyGoals } from "@/lib/firebase/db";
 import Link from "next/link";
 import { YearlyGoalCard } from "@/components/YearlyGoalCard";
 
-export function PublicGoalsHighlight({ goals }: { goals: YearlyGoal[] }) {
+export function PublicGoalsHighlight() {
+  const [goals, setGoals] = useState<YearlyGoal[]>([]);
+  const currentYear = new Date().getFullYear();
+
+  useEffect(() => {
+    async function fetchPublicGoals() {
+      try {
+        const publicGoals = await getPublicYearlyGoals(currentYear, 3);
+        setGoals(publicGoals);
+      } catch (error) {
+        console.error("Error fetching public goals:", error);
+      }
+    }
+
+    fetchPublicGoals();
+  }, [currentYear]);
+
   if (goals.length === 0) return null;
 
   const shuffledGoals = [...goals].sort(() => Math.random() - 0.5);

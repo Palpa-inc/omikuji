@@ -15,37 +15,54 @@ import { PublicGoalsHighlight } from "@/components/PublicGoalsHighlight";
 import { Header } from "@/components/Header";
 import { PageTransition } from "@/components/motion/PageTransition";
 import { Squircle } from "@squircle-js/react";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
-  const { user, loading: authLoading } = useAuth();
+  const { user, loading: authLoading, signInAnonymously } = useAuth();
   const [yearlyGoal, setYearlyGoal] = useState<YearlyGoal | null>(null);
   const [loading, setLoading] = useState(true);
   const [publicGoals, setPublicGoals] = useState<YearlyGoal[]>([]);
   const currentYear = new Date().getFullYear();
 
+  // 公開目標の取得（認証不要）
   useEffect(() => {
-    async function fetchData() {
-      if (!user) {
-        setLoading(false);
-        return;
-      }
-
+    async function fetchPublicData() {
       try {
-        const [goal, publicGoalsData] = await Promise.all([
-          getCurrentYearGoal(user.uid),
-          getPublicYearlyGoals(new Date().getFullYear(), 3),
-        ]);
-        setYearlyGoal(goal);
+        const publicGoalsData = await getPublicYearlyGoals(currentYear, 3);
         setPublicGoals(publicGoalsData);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching public data:", error);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchData();
+    fetchPublicData();
+  }, [currentYear]);
+
+  // ユーザーの目標取得（認証必要）
+  useEffect(() => {
+    async function fetchUserData() {
+      if (!user) {
+        return;
+      }
+
+      try {
+        const goal = await getCurrentYearGoal(user.uid);
+        setYearlyGoal(goal);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    }
+
+    fetchUserData();
   }, [user]);
+
+  const handleAuthRequired = async () => {
+    if (!user) {
+      await signInAnonymously();
+    }
+  };
 
   if (authLoading) {
     return (
@@ -59,6 +76,7 @@ export default function Home() {
             yearlyGoal={null}
             publicGoals={[]}
             currentYear={currentYear}
+            handleAuthRequired={handleAuthRequired}
           />
         </div>
       </div>
@@ -77,6 +95,7 @@ export default function Home() {
         yearlyGoal={yearlyGoal}
         publicGoals={publicGoals}
         currentYear={currentYear}
+        handleAuthRequired={handleAuthRequired}
       />
     </div>
   );
@@ -86,10 +105,12 @@ function PageContent({
   yearlyGoal,
   publicGoals,
   currentYear,
+  handleAuthRequired,
 }: {
   yearlyGoal: YearlyGoal | null;
   publicGoals: YearlyGoal[];
   currentYear: number;
+  handleAuthRequired: () => Promise<void>;
 }) {
   return (
     <>
@@ -115,13 +136,12 @@ function PageContent({
                   cornerSmoothing={1}
                   className="bg-violet-600 hover:bg-violet-700 text-lg text-white h-auto py-4"
                 >
-                  <Link
-                    href="/record"
-                    className="flex items-center justify-center gap-2 w-full"
-                  >
-                    <Camera className="h-5 w-5" />
-                    <span>おみくじをアップロード</span>
-                  </Link>
+                  <Button onClick={handleAuthRequired} asChild>
+                    <Link href="/record">
+                      <Camera className="h-5 w-5" />
+                      <span>おみくじをアップロード</span>
+                    </Link>
+                  </Button>
                 </Squircle>
                 <div className="flex items-start gap-3 px-1">
                   <div className="p-1.5 rounded-full bg-violet-100 text-violet-600">
@@ -164,9 +184,7 @@ function PageContent({
             )}
           </div>
 
-          {publicGoals.length > 0 && (
-            <PublicGoalsHighlight goals={publicGoals} />
-          )}
+          {publicGoals.length > 0 && <PublicGoalsHighlight />}
         </main>
       </PageTransition>
 
