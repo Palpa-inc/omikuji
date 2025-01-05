@@ -15,10 +15,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "おみログ",
-  description: "おみくじの運勢を記録して後から振り返ろう",
+  description: `おみくじ引いたらおみログに。${new Date().getFullYear()}年の運勢を記録しておこう`,
   openGraph: {
     title: "おみログ",
-    description: "おみくじの運勢を記録して後から振り返ろう",
+    description: `おみくじ引いたらおみログに。${new Date().getFullYear()}年の運勢を記録しておこう`,
     images: [
       {
         url: "https://omilog.net/og-image.png",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "おみログ",
-    description: "おみくじの運勢を記録して後から振り返ろう",
+    description: `おみくじ引いたらおみログに。${new Date().getFullYear()}年の運勢を記録しておこう`,
     images: ["https://omilog.net/og-image.png"],
   },
 };

@@ -97,9 +97,9 @@ function PageContent({
         <header className="text-center mb-4 relative">
           <h1 className="text-3xl font-bold mb-2">おみログ</h1>
           <p className="text-gray-600 dark:text-gray-400">
-            {currentYear}年のおみくじを記録して、
+            おみくじ引いたらおみログに。
             <br />
-            運勢の変化を振り返ろう
+            {currentYear}年の運勢を記録しておこう
           </p>
         </header>
 
